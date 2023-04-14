@@ -64,8 +64,8 @@ bool iface_is_running(char const *pIface)
     
     return (buffer.ifr_flags & IFF_RUNNING) != 0;
 }
-
-bool iface_is_outbound_iters(char const *pIface)
+#ifdef IFACE_IP_BY_ITERS
+bool iface_is_outbound(char const *pIface)
 {
     struct ifaddrs *ifAddrStruct = NULL;
     bool retVal = false;
@@ -105,8 +105,9 @@ bool iface_is_outbound_iters(char const *pIface)
     }
     return retVal;
 }
-
-bool iface_is_outbound_bind(char const *pIface)
+#endif
+#ifdef IFACE_IP_BY_IOCTL
+bool iface_is_outbound(char const *pIface)
 {
     struct ifreq buffer = {
         .ifr_addr = {
@@ -128,13 +129,8 @@ bool iface_is_outbound_bind(char const *pIface)
     uint32_t ip = convert_addr(&buffer.ifr_addr);
     return !ip_is_ll(ip);
 }
-
+#endif
 int main(int argc, char *argv[])
 {
-    #ifdef IFACE_IP_BY_ITERS
-    return iface_is_outbound_iters(argv[1]) ? 0 : 1;
-    #endif
-    #ifdef IFACE_IP_BY_IOCTL
-    return iface_is_outbound_bind(argv[1]) ? 0 : 1;
-    #endif
+    return iface_is_outbound(argv[1]) ? 0 : 1;
 }
