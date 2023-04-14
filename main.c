@@ -14,6 +14,8 @@
 #include <stddef.h>
 #include <unistd.h>
 #include <string.h>
+#include <inttypes.h>
+#include <stdlib.h>
 
 static uint32_t convert_addr(struct sockaddr const *const addr)
 {
@@ -22,11 +24,26 @@ static uint32_t convert_addr(struct sockaddr const *const addr)
     return ntohl(saddr_in.sin_addr.s_addr);
 }
 
+void pp_ip(uint32_t ipHostOrder)
+{
+    printf("%" PRIu8 ".%" PRIu8 ".%" PRIu8 ".%" PRIu8 "\n",
+           (ipHostOrder >> 24) & 0xFF,
+           (ipHostOrder >> 16) & 0xFF,
+           (ipHostOrder >> 8) & 0xFF,
+           ipHostOrder & 0xFF);
+}
+
 bool ip_is_ll(uint32_t ip)
 {
     // https://tools.ietf.org/html/rfc3927; Link Local addresses have the mask
     // 169.254/16
     return (169 == ((ip >> 24) & 0xFF) && 254 == ((ip >> 16) & 0xFF));
+}
+
+bool ip_is_lb(uint32_t ip)
+{
+    // Loopback addresses have the mask 127/8
+    return (127 == ((ip >> 24) & 0xFF));
 }
 
 bool iface_is_running(char const *pIface)
@@ -71,7 +88,7 @@ bool iface_is_outbound_iters(char const *pIface)
                 continue;
             }
             ip = convert_addr(pRecord->ifa_addr);
-            if (ip != 0 && !ip_is_ll(ip))
+            if (ip != 0 && !ip_is_ll(ip) && !ip_is_lb(ip))
             {
                 retVal = true;
                 break;
@@ -91,7 +108,6 @@ bool iface_is_outbound_iters(char const *pIface)
 
 bool iface_is_outbound_bind(char const *pIface)
 {
-    printf("iface_is_outbound_bind: \"%s\"\n", pIface);
     struct ifreq buffer = {
         .ifr_addr = {
             .sa_family = AF_INET
@@ -103,52 +119,22 @@ bool iface_is_outbound_bind(char const *pIface)
         close(s);
         return false;
     }
-    // if (setsockopt(s, SOL_SOCKET, SO_BINDTODEVICE, pIface, IF_NAMESIZE) == -1)
-    // {
-    //     printf("Error setting socket option\n");
-    //     close(s);
-    //     return false;
-    // }
-    printf("Successfully bound to device\n");
-    printf("looking up socket addr\n");
     if (ioctl(s, SIOCGIFADDR, &buffer) == -1)
     {
         printf("Error getting socket addr\n");
         close(s);
         return false;
     }
-    printf("successfully looked up socket addr\n");
-    int ip = convert_addr(&buffer.ifr_addr);
-    printf("ip: %i\n", ip);
-    return ip_is_ll(ip);
+    uint32_t ip = convert_addr(&buffer.ifr_addr);
+    return !ip_is_ll(ip);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    const char *iface = "enp0s31f6";
-    if (iface_is_running(iface))
-    {
-        printf("iface is up\n");
-    }
-    else
-    {
-        printf("iface is down\n");
-    }
-    if (iface_is_outbound_iters(iface))
-    {
-        printf("(iter) iface is outbound\n");
-    }
-    else
-    {
-        printf("(iter) iface is not outbound\n");
-    }
-    if (iface_is_outbound_bind(iface))
-    {
-        printf("(bind) iface is outbound\n");
-    }
-    else
-    {
-        printf("(bind) iface is not outbound\n");
-    }
-    return 0;
+    #ifdef IFACE_IP_BY_ITERS
+    return iface_is_outbound_iters(argv[1]) ? 0 : 1;
+    #endif
+    #ifdef IFACE_IP_BY_IOCTL
+    return iface_is_outbound_bind(argv[1]) ? 0 : 1;
+    #endif
 }
