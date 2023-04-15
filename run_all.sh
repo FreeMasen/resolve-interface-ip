@@ -2,6 +2,7 @@
 
 INTERFACE_NAME="$(ip -o -4 route show to default | awk '{print $5}')"
 mkdir -p ./target
+echo "Running with interface $INTERFACE_NAME"
 
 clang ./main.c -DIFACE_IP_BY_ITERS -O3 -o ./target/iters \
   && clang ./main.c -DIFACE_IP_BY_IOCTL -O3 -o ./target/ioctl \

@@ -1,10 +1,10 @@
-execve("./target/ioctl", ["./target/ioctl", "enp0s31f6"], 0x7ffd759d3908 /* 38 vars */) = 0
-brk(NULL)                               = 0x15a1000
-arch_prctl(0x3001 /* ARCH_??? */, 0x7ffec55e6920) = -1 EINVAL (Invalid argument)
+execve("./target/ioctl", ["./target/ioctl", "eth0"], 0x7ffc7ec7fe78 /* 6 vars */) = 0
+brk(NULL)                               = 0x233e000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffe6da915d0) = -1 EINVAL (Invalid argument)
 access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=91223, ...}) = 0
-mmap(NULL, 91223, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f04c4cfe000
+fstat(3, {st_mode=S_IFREG|0644, st_size=13078, ...}) = 0
+mmap(NULL, 13078, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7febd5b1f000
 close(3)                                = 0
 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300A\2\0\0\0\0\0"..., 832) = 832
@@ -12,22 +12,22 @@ pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 7
 pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\30x\346\264ur\f|Q\226\236i\253-'o"..., 68, 880) = 68
 fstat(3, {st_mode=S_IFREG|0755, st_size=2029592, ...}) = 0
-mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f04c4cfc000
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7febd5b1d000
 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
 pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\30x\346\264ur\f|Q\226\236i\253-'o"..., 68, 880) = 68
-mmap(NULL, 2037344, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f04c4b0a000
-mmap(0x7f04c4b2c000, 1540096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7f04c4b2c000
-mmap(0x7f04c4ca4000, 319488, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19a000) = 0x7f04c4ca4000
-mmap(0x7f04c4cf2000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7f04c4cf2000
-mmap(0x7f04c4cf8000, 13920, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f04c4cf8000
+mmap(NULL, 2037344, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7febd592b000
+mmap(0x7febd594d000, 1540096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7febd594d000
+mmap(0x7febd5ac5000, 319488, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19a000) = 0x7febd5ac5000
+mmap(0x7febd5b13000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7febd5b13000
+mmap(0x7febd5b19000, 13920, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7febd5b19000
 close(3)                                = 0
-arch_prctl(ARCH_SET_FS, 0x7f04c4cfd540) = 0
-mprotect(0x7f04c4cf2000, 16384, PROT_READ) = 0
+arch_prctl(ARCH_SET_FS, 0x7febd5b1e540) = 0
+mprotect(0x7febd5b13000, 16384, PROT_READ) = 0
 mprotect(0x403000, 4096, PROT_READ)     = 0
-mprotect(0x7f04c4d42000, 4096, PROT_READ) = 0
-munmap(0x7f04c4cfe000, 91223)           = 0
+mprotect(0x7febd5b50000, 4096, PROT_READ) = 0
+munmap(0x7febd5b1f000, 13078)           = 0
 socket(AF_INET, SOCK_DGRAM, IPPROTO_IP) = 3
-ioctl(3, SIOCGIFADDR, {ifr_name="enp0s31f6", ifr_addr={sa_family=AF_INET, sin_port=htons(0), sin_addr=inet_addr("192.168.1.24")}}) = 0
+ioctl(3, SIOCGIFADDR, {ifr_name="eth0", ifr_addr={sa_family=AF_INET, sin_port=htons(0), sin_addr=inet_addr("172.17.0.2")}}) = 0
 exit_group(0)                           = ?
 +++ exited with 0 +++
