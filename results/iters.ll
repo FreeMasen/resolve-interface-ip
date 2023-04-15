@@ -12,7 +12,7 @@ target triple = "x86_64-pc-linux-gnu"
 %union.anon.1 = type { %struct.sockaddr* }
 
 @.str = private unnamed_addr constant [13 x i8] c"%u.%u.%u.%u\0A\00", align 1
-@str = private unnamed_addr constant [45 x i8] c"stSocketHaveOutboundIface: getifaddrs failed\00", align 1
+@str = private unnamed_addr constant [18 x i8] c"getifaddrs failed\00", align 1
 
 ; Function Attrs: nofree nounwind uwtable
 define dso_local void @pp_ip(i32 %0) local_unnamed_addr #0 {
@@ -191,7 +191,7 @@ define dso_local zeroext i1 @iface_is_outbound(i8* nocapture readnone %0) local_
   br label %63
 
 61:                                               ; preds = %1
-  %62 = call i32 @puts(i8* nonnull dereferenceable(1) getelementptr inbounds ([45 x i8], [45 x i8]* @str, i64 0, i64 0))
+  %62 = call i32 @puts(i8* nonnull dereferenceable(1) getelementptr inbounds ([18 x i8], [18 x i8]* @str, i64 0, i64 0))
   br label %63
 
 63:                                               ; preds = %7, %60, %56, %61
